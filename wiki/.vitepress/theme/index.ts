@@ -2,8 +2,10 @@ import DefaultTheme from 'vitepress/theme';
 import { h } from 'vue';
 import './custom.css';
 
-// Custom brand in navbar: "trade" green + "cli" primary + "/ wiki" muted — matches landing nav style.
-// Uses VitePress's `nav-bar-title-before` slot to inject markup before the default siteTitle (which we hide via CSS).
+// Brand markup `tradecli / wiki` injected into VPNavBarTitle's slot. VitePress
+// wraps this in its own anchor to the wiki root, so clicking the brand goes
+// to wiki home. Main-site navigation lives as a separate nav item (configured
+// in config.ts) to avoid nested-anchor issues.
 export default {
   extends: DefaultTheme,
   Layout: () =>
@@ -11,7 +13,10 @@ export default {
       'nav-bar-title-before': () =>
         h(
           'span',
-          { class: 'brand-mark', style: 'font-family: \'JetBrains Mono\', monospace; font-weight: 700; letter-spacing: -0.02em;' },
+          {
+            class: 'brand-mark',
+            style: 'font-family: \'JetBrains Mono\', monospace; font-weight: 700; letter-spacing: -0.02em;',
+          },
           [
             h('span', { style: 'color: var(--green);' }, 'trade'),
             h('span', { style: 'color: var(--text-primary);' }, 'cli'),

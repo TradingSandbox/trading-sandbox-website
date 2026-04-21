@@ -3,10 +3,10 @@ import { defineConfig, type HeadConfig } from 'vitepress';
 const SITE_BASE = process.env.SITE_BASE || '/';
 const DOCS_BASE = process.env.DOCS_BASE || '/wiki/';
 
-// VitePress prepends `base:` to any nav link not starting with http(s)://, which
-// double-prefixes cross-system links. Using full URLs keeps them intact.
-const ORIGIN = process.env.PREVIEW === 'true'
-  ? 'https://tradingsandbox.github.io'
+// Env-aware main-site URL for the "tradecli.in" nav item. Preview deploy points
+// at the preview fork's landing; prod points at tradecli.in.
+const MAIN_SITE_URL = process.env.PREVIEW === 'true'
+  ? 'https://tradingsandbox.github.io/trading-sandbox-website-preview/'
   : 'https://tradecli.in';
 
 const head: HeadConfig[] = [
@@ -29,13 +29,10 @@ export default defineConfig({
     // Hide default siteTitle text — custom brand markup is injected via theme's nav-bar-title-before slot
     siteTitle: false,
 
+    // Single nav item for the main site. Brand mark (wiki slot) links to
+    // wiki home; this item handles the "out of the wiki" navigation.
     nav: [
-      { text: 'Personas', link: `${ORIGIN}${SITE_BASE}#personas` },
-      { text: 'Features', link: `${ORIGIN}${SITE_BASE}#features` },
-      { text: 'Docs', link: `${ORIGIN}${SITE_BASE}wiki/` },
-      { text: 'Updates', link: `${ORIGIN}${SITE_BASE}updates/` },
-      { text: 'About', link: `${ORIGIN}${SITE_BASE}about/` },
-      { text: 'Get Started →', link: `${ORIGIN}${SITE_BASE}wiki/getting-started/quick-start` },
+      { text: 'tradecli.in', link: MAIN_SITE_URL },
     ],
 
     sidebar: [
@@ -49,7 +46,13 @@ export default defineConfig({
       },
       {
         text: 'Guides',
-        items: [{ text: 'Personas', link: '/guides/personas' }],
+        items: [
+          { text: 'Personas & Modes', link: '/guides/personas' },
+          { text: 'Learner Mode', link: '/guides/learner' },
+          { text: 'Investor', link: '/guides/investor' },
+          { text: 'Trader', link: '/guides/trader' },
+          { text: 'Portfolio Manager', link: '/guides/portfolio-manager' },
+        ],
       },
       {
         text: 'Extending',
