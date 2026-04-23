@@ -191,8 +191,35 @@ section { padding: 100px 0; }
 .section-desc {
   font-size: 1.05rem; color: var(--text-secondary);
   max-width: 560px; line-height: 1.7;
+  margin-left: auto; margin-right: auto;
 }
-.section-header { margin-bottom: 56px; }
+.section-header { margin-bottom: 56px; text-align: center; }
+
+/* Center constrained-width H1/descs inside .hero when text-align:center centers inner text
+   but block-level elements need auto margins to center their max-width box too. */
+.hero .section-title,
+.hero .section-desc { margin-left: auto; margin-right: auto; }
+
+/* ── About-page prose ── */
+.about-prose {
+  max-width: 780px;
+  color: var(--text-secondary);
+  font-size: 1.05rem;
+  line-height: 1.8;
+}
+.about-prose p { margin-bottom: 1em; }
+.about-prose p:last-child { margin-bottom: 0; }
+.about-prose strong { color: var(--text-primary); font-weight: 600; }
+.about-prose a {
+  color: var(--accent-light);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(96, 165, 250, 0.3);
+  transition: border-color 0.15s, color 0.15s;
+}
+.about-prose a:hover {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
 
 /* ── Personas ── */
 #personas { border-top: 1px solid var(--border); }
