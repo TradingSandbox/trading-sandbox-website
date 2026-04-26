@@ -18,6 +18,12 @@ export function resolveAnalyticsSnippet(preview: boolean, token: string): string
   return `<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='${JSON.stringify({ token })}'></script>`;
 }
 
+export function resolvePageRobots(isPreview: boolean, robots: string | undefined): string {
+  if (isPreview) return '';
+  if (!robots) return '';
+  return `<meta name="robots" content="${robots}">`;
+}
+
 export function substituteTokens(
   input: string,
   tokens: Record<string, string>,
@@ -39,6 +45,33 @@ export function injectFragments(
     result = result.replaceAll(marker, value);
   }
   return result;
+}
+
+export function resolveHostname(siteBase: string | undefined): string {
+  if (!siteBase || siteBase === '/') return 'https://tradecli.in';
+  return `https://tradingsandbox.github.io${siteBase.replace(/\/$/, '')}`;
+}
+
+export function resolveCanonicalUrl(output: string, hostname: string): string {
+  if (output === 'index.html') return `${hostname}/`;
+  if (output.endsWith('/index.html')) return `${hostname}/${output.slice(0, -'index.html'.length)}`;
+  return `${hostname}/${output}`;
+}
+
+export function validateJsonLdBlocks(html: string, sourceLabel: string): void {
+  const blockRegex = /<script\s+type="application\/ld\+json">([\s\S]*?)<\/script>/g;
+  let match: RegExpExecArray | null;
+  let index = 0;
+  while ((match = blockRegex.exec(html)) !== null) {
+    index++;
+    try {
+      // The regex has exactly one capture group; when match is non-null it's always defined.
+      JSON.parse(match[1]!);
+    } catch (e) {
+      const reason = e instanceof Error ? e.message : String(e);
+      throw new Error(`Invalid JSON-LD in ${sourceLabel} (block #${index}): ${reason}`);
+    }
+  }
 }
 
 export function guardNoCnameOnMaster(repoRoot: string): void {
@@ -69,6 +102,7 @@ export function buildPageIntoDist(
   const rawBody = readFileSync(sourcePath, 'utf-8');
   const withFragments = injectFragments(rawBody, shared);
   const withTokens = substituteTokens(withFragments, tokens);
+  validateJsonLdBlocks(withTokens, outputRel);
   const outPath = join(repoRoot, 'dist', outputRel);
   mkdirSync(dirname(outPath), { recursive: true });
   writeFileSync(outPath, withTokens);
@@ -109,16 +143,19 @@ function main(): void {
   const isPreview = process.env.PREVIEW === 'true';
   const previewRobots = isPreview ? '<meta name="robots" content="noindex, nofollow">' : '';
   const analyticsSnippet = resolveAnalyticsSnippet(isPreview, CF_BEACON_TOKEN);
+  const hostname = resolveHostname(process.env.SITE_BASE);
 
   guardNoCnameOnMaster(repoRoot);
-  for (const { source, output } of PAGES_MANIFEST) {
+  for (const entry of PAGES_MANIFEST) {
     buildPageIntoDist(
       repoRoot,
-      source,
-      output,
+      entry.source,
+      entry.output,
       {
         SITE_BASE: siteBase,
         PREVIEW_ROBOTS: previewRobots,
+        CANONICAL_URL: resolveCanonicalUrl(entry.output, hostname),
+        PAGE_ROBOTS: resolvePageRobots(isPreview, entry.robots),
       },
       {
         BODY_END: analyticsSnippet,

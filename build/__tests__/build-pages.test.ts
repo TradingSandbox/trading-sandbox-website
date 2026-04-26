@@ -9,6 +9,9 @@ import {
   copySharedCSSToDistAssets,
   guardNoCnameOnMaster,
   resolveAnalyticsSnippet,
+  resolveCanonicalUrl,
+  resolvePageRobots,
+  validateJsonLdBlocks,
   PAGES_MANIFEST,
 } from '../build-pages.js';
 
@@ -146,6 +149,72 @@ describe('resolveAnalyticsSnippet', () => {
     expect(result).toContain('fake-token-123');
     expect(result).toContain('defer');
     expect(result).toContain('static.cloudflareinsights.com/beacon.min.js');
+  });
+});
+
+describe('resolveCanonicalUrl', () => {
+  it('strips trailing index.html for home', () => {
+    expect(resolveCanonicalUrl('index.html', 'https://tradecli.in')).toBe('https://tradecli.in/');
+  });
+
+  it('strips trailing index.html for nested pages', () => {
+    expect(resolveCanonicalUrl('about/index.html', 'https://tradecli.in')).toBe('https://tradecli.in/about/');
+  });
+
+  it('keeps non-index.html outputs verbatim (e.g. 404.html)', () => {
+    expect(resolveCanonicalUrl('404.html', 'https://tradecli.in')).toBe('https://tradecli.in/404.html');
+  });
+
+  it('uses the given hostname (preview env)', () => {
+    expect(resolveCanonicalUrl(
+      'about/index.html',
+      'https://tradingsandbox.github.io/trading-sandbox-website-preview',
+    )).toBe('https://tradingsandbox.github.io/trading-sandbox-website-preview/about/');
+  });
+});
+
+describe('resolvePageRobots', () => {
+  it('returns empty when in preview mode (PREVIEW_ROBOTS handles it)', () => {
+    expect(resolvePageRobots(true, 'noindex, follow')).toBe('');
+    expect(resolvePageRobots(true, undefined)).toBe('');
+  });
+
+  it('returns empty when manifest has no robots field', () => {
+    expect(resolvePageRobots(false, undefined)).toBe('');
+  });
+
+  it('emits the meta tag with the manifest robots value', () => {
+    expect(resolvePageRobots(false, 'noindex, follow')).toBe(
+      '<meta name="robots" content="noindex, follow">',
+    );
+    expect(resolvePageRobots(false, 'noindex')).toBe(
+      '<meta name="robots" content="noindex">',
+    );
+  });
+});
+
+describe('validateJsonLdBlocks', () => {
+  it('passes when there are no JSON-LD blocks', () => {
+    expect(() => validateJsonLdBlocks('<html><body>hi</body></html>', 'index.html')).not.toThrow();
+  });
+
+  it('passes when all JSON-LD blocks are valid', () => {
+    const html = `
+      <script type="application/ld+json">{"@type":"Organization"}</script>
+      <script type="application/ld+json">{"@type":"WebSite"}</script>
+    `;
+    expect(() => validateJsonLdBlocks(html, 'index.html')).not.toThrow();
+  });
+
+  it('throws with page context when a block is invalid JSON', () => {
+    const html = '<script type="application/ld+json">{ not json }</script>';
+    expect(() => validateJsonLdBlocks(html, 'index.html'))
+      .toThrow(/JSON-LD.*index\.html/);
+  });
+
+  it('ignores other <script> blocks', () => {
+    const html = '<script>console.log("hi")</script><script type="application/ld+json">{}</script>';
+    expect(() => validateJsonLdBlocks(html, 'index.html')).not.toThrow();
   });
 });
 
