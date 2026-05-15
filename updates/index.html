@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- shared/head-base.html -->
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<meta name="robots" content="noindex, follow">
+<link rel="canonical" href="https://tradecli.in/updates/">
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/assets/tokens.css">
+<link rel="stylesheet" href="/assets/components.css">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<script defer src="/assets/fade-in.js"></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "tradecli",
+  "url": "https://tradecli.in",
+  "logo": "https://tradecli.in/assets/favicon.svg"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "tradecli",
+  "url": "https://tradecli.in"
+}
+</script>
+
+  <title>Updates — tradecli</title>
+  <meta name="description" content="What's shipped and what's next — hand-curated highlights of tradecli releases." />
+  <meta property="og:title" content="Updates — tradecli" />
+  <meta property="og:description" content="Shipped features and upcoming work for tradecli." />
+  <meta property="og:image" content="https://tradecli.in/assets/og-default.png" />
+  <meta property="og:url" content="https://tradecli.in/updates/" />
+  <meta name="twitter:card" content="summary_large_image" />
+</head>
+<body>
+  <!-- shared/nav.html -->
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-logo" style="font-family:'JetBrains Mono',monospace;font-size:1rem;letter-spacing:-0.02em;">
+      <span style="color:var(--green);">trade</span><span style="color:var(--text-primary);">cli</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/#personas">Personas</a></li>
+      <li><a href="/#features">Features</a></li>
+      <li><a href="/wiki/">Docs</a></li>
+      <li><a href="/updates/" class="nav-link-highlight">Updates</a></li>
+      <li><a href="/about/">About</a></li>
+    </ul>
+    <div class="nav-right-desktop">
+      <a href="https://github.com/TradingSandbox/homebrew-tradecli" target="_blank" rel="noopener" style="color:var(--text-secondary);transition:color 0.2s;" title="GitHub">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+      </a>
+      <a href="/wiki/getting-started/quick-start" class="nav-cta">Get Started</a>
+    </div>
+    <button class="nav-hamburger" onclick="document.getElementById('mobile-menu').classList.toggle('open')" aria-label="Menu">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+    </button>
+  </div>
+</nav>
+<div class="nav-mobile" id="mobile-menu">
+  <a href="/#personas" onclick="document.getElementById('mobile-menu').classList.remove('open')">Personas</a>
+  <a href="/#features" onclick="document.getElementById('mobile-menu').classList.remove('open')">Features</a>
+  <a href="/wiki/" onclick="document.getElementById('mobile-menu').classList.remove('open')">Docs</a>
+  <a href="/updates/" class="nav-link-highlight" onclick="document.getElementById('mobile-menu').classList.remove('open')">Updates</a>
+  <a href="/about/" onclick="document.getElementById('mobile-menu').classList.remove('open')">About</a>
+  <a href="https://github.com/TradingSandbox/homebrew-tradecli" target="_blank" rel="noopener">GitHub</a>
+  <a href="/wiki/getting-started/quick-start" class="nav-cta" onclick="document.getElementById('mobile-menu').classList.remove('open')">Get Started</a>
+</div>
+
+
+  <main>
+    <section class="hero hero-compact" style="padding: 120px 0 60px;">
+      <div class="container">
+        <div class="section-label">Updates</div>
+        <h1 class="section-title" style="max-width: 860px;">What's happening with tradecli</h1>
+        <p class="section-desc" style="max-width: 860px;">A lightweight build log for what shipped, what changed, and what we're working on next.</p>
+      </div>
+    </section>
+
+    <section style="border-top: 1px solid var(--border);">
+      <div class="container">
+        <div class="section-header fade-in">
+          <div class="section-label">Build Log</div>
+          <h2 class="section-title">Recently shipped and what's next</h2>
+        </div>
+        <div class="changelog">
+          <article class="changelog-entry changelog-entry-upcoming fade-in">
+            <time datetime="2026-05">May 2026</time>
+            <div>
+              <h3>Trader workflow and multi-agent harness <span class="changelog-status">Next up</span></h3>
+              <p>Making the product more cohesive with actual trader workflows, adding broker integrations with Sahi and INDmoney, automating a PMS with hedge-fund style workflows, and building a multi-agent harness that can simulate a desk running many trades at once.</p>
+            </div>
+          </article>
+          <article class="changelog-entry fade-in">
+            <time datetime="2026-05-15">May 15, 2026</time>
+            <div>
+              <h3>Forward Test v0.3.17</h3>
+              <p>Save and watch approved trade ideas from any strategy builder in a forward-test journal, track them alongside live positions, and review how each one played out with a daily scorecard — so you can validate edge before risking capital.</p>
+            </div>
+          </article>
+          <article class="changelog-entry fade-in">
+            <time datetime="2026-05-14">May 14, 2026</time>
+            <div>
+              <h3>Browser-driven screener workflow v0.3.16</h3>
+              <p>Replaced the older screener tools with a browser-driven workflow and added stricter guardrails, making screening sessions more reliable while keeping the flow safer around tool handoffs and automated actions.</p>
+            </div>
+          </article>
+          <article class="changelog-entry fade-in">
+            <time datetime="2026-05-12">May 12, 2026</time>
+            <div>
+              <h3>Track-a-trade and learner workflow polish v0.3.15</h3>
+              <p>Added live track-a-trade support, generic watch and cron flows in the TUI, improved free-text stock discovery with delegated Indian market news, and polished the persona migration, learner review, and workflow follow-up experience.</p>
+            </div>
+          </article>
+          <article class="changelog-entry fade-in">
+            <time datetime="2026-05-10">May 10, 2026</time>
+            <div>
+              <h3>Investor and Portfolio Manager merged v0.3.14</h3>
+              <p>Merged the Investor and Portfolio Manager personas into a single unified persona. Portfolio management is a shared concern across both traders and investors, so collapsing the two removes redundant workflows, simplifies navigation, and lets one persona handle position sizing, allocation, and long-term holdings end to end.</p>
+            </div>
+          </article>
+          <article class="changelog-entry fade-in">
+            <time datetime="2026-05-07">May 7, 2026</time>
+            <div>
+              <h3>Learner UI and trading news workflows</h3>
+              <p>Updated UI for learner module and enhanced trading news and thesis module.</p>
+            </div>
+          </article>
+          <article class="changelog-entry fade-in">
+            <time datetime="2026-05-04">May 4, 2026</time>
+            <div>
+              <h3>Pine strategy and backtesting workflows</h3>
+              <p>Tightened Pine strategy creation and backtesting and scripts.</p>
+            </div>
+          </article>
+          <article class="changelog-entry fade-in">
+            <time datetime="2026-04-27">Apr 27, 2026</time>
+            <div>
+              <h3>News and thesis workflows v0.3.11</h3>
+              <p>Added news and thesis functionality in Investor and Pro Trader modes.</p>
+            </div>
+          </article>
+          <article class="changelog-entry fade-in">
+            <time datetime="2026-04-26">Apr 26, 2026</time>
+            <div>
+              <h3>Pro trader mode v0.3.10</h3>
+              <p>Added pro trader mode with TradingView desktop app support and an improved UI for faster trader workflows.</p>
+            </div>
+          </article>
+          <article class="changelog-entry fade-in">
+            <time datetime="2026-04-11">Apr 11, 2026</time>
+            <div>
+              <h3>Four personas mode v0.3.4</h3>
+              <p>First release with four personas: Learner, Trader, Investor, and Portfolio Manager.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- shared/footer.html -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-left">
+      <span style="font-family:'JetBrains Mono',monospace;font-size:0.85rem;"><span style="color:var(--green);">trade</span>cli</span>
+      <span>&copy; 2026</span>
+    </div>
+    <div class="footer-links">
+      <a href="https://github.com/TradingSandbox/homebrew-tradecli" target="_blank" rel="noopener">GitHub</a>
+      <a href="/wiki/">Documentation</a>
+      <a href="/about/">About</a>
+      <a href="/updates/">Updates</a>
+      <a href="mailto:contact@tradecli.in">Contact</a>
+    </div>
+  </div>
+  <div style="max-width: 860px; margin: 24px auto 0; padding: 0 24px; color: var(--text-muted); font-size: 0.7rem; line-height: 1.6; text-align: center;">
+    tradecli is not affiliated with, endorsed by, or sponsored by Groww, Zerodha, Kite, Streak, TradingView, Screener.in, or any other third-party platform mentioned on this site. All trademarks and brand names are the property of their respective owners. This is a personal trading tool for educational and informational purposes only. It does not provide investment, financial, legal, or tax advice. Nothing on this site constitutes a recommendation to buy, sell, or hold any security.
+  </div>
+</footer>
+
+  <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"e68cb75864084de9afa70a34535a4251"}'></script>
+</body>
+</html>
