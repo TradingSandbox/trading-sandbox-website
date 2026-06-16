@@ -86,10 +86,11 @@ Still in `build/__tests__/build-smoke.test.ts`, add this test after the secondar
 Run:
 
 ```bash
+npm run build
 npm test -- build/__tests__/build-smoke.test.ts
 ```
 
-Expected: FAIL because the current built content still says "AI trading assistant", `/updates/` still contains draft-only content, and nav targets may not yet match the new IA.
+Expected: FAIL because the current built content still says "AI trading assistant", `/updates/` still contains draft-only content, and nav targets may not yet match the new IA. The build step is required because the smoke assertions inspect `dist/`.
 
 - [ ] **Step 5: Commit the failing test checkpoint**
 
@@ -464,11 +465,15 @@ Replace the placeholder cards in `updates/index.html` with real milestones:
 
 Keep wording factual and tied to README-backed behavior.
 
+Do not make the page a thin mirror of README bullets. Add one short "Why it matters" sentence to each milestone that explains the product/customer significance in plain language. If the page cannot add useful release context beyond existing docs, keep it noindexed.
+
 - [ ] **Step 2: Decide whether to index updates**
 
-Before changing indexability, run this source audit:
+Before changing indexability, verify these sibling repos exist at the expected local paths and run this source audit:
 
 ```bash
+test -f /Users/adityalahiri/self/startup/TradingSandbox/README.md
+test -f /Users/adityalahiri/self/startup/AITradingOffice/README.md
 rg -n "Office Mode|tradecli office --tmux|tradecli office --herdr|AITradingOffice|broker gateway|tradecli office service|tradecli doctor|tradecli setup" /Users/adityalahiri/self/startup/TradingSandbox/README.md /Users/adityalahiri/self/startup/AITradingOffice/README.md
 git -C /Users/adityalahiri/self/startup/TradingSandbox log --oneline -12
 git -C /Users/adityalahiri/self/startup/AITradingOffice log --oneline -8
@@ -757,6 +762,8 @@ Append CSS that uses fixed slots and does not resize during animation:
   .herdr-pane,
   .mail-chip {
     animation: none;
+    opacity: 1;
+    transform: none;
   }
 }
 @media (max-width: 760px) {
@@ -778,7 +785,7 @@ Tune after Browser screenshots. The CSS above is the starting point, not a subst
 
 - [ ] **Step 4: Verify reduced-motion fallback**
 
-Confirm the CSS keeps the final state readable when motion is disabled:
+Confirm the CSS added in Step 3 keeps the final state readable when motion is disabled. The block must include `animation: none`, `opacity: 1`, and `transform: none`:
 
 ```css
 @media (prefers-reduced-motion: reduce) {
@@ -789,6 +796,18 @@ Confirm the CSS keeps the final state readable when motion is disabled:
     transform: none;
   }
 }
+```
+
+Optionally add a smoke assertion in `build/__tests__/build-smoke.test.ts` if implementation uses the Herdr animation:
+
+```ts
+  test('Herdr animation CSS includes reduced-motion static fallback', () => {
+    const css = readFileSync(join(REPO_ROOT, 'dist/assets/components.css'), 'utf-8');
+    expect(css).toContain('@media (prefers-reduced-motion: reduce)');
+    expect(css).toContain('animation: none');
+    expect(css).toContain('opacity: 1');
+    expect(css).toContain('transform: none');
+  });
 ```
 
 - [ ] **Step 5: Run build**

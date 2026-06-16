@@ -187,7 +187,7 @@ Replace the current draft-only content with real release/product milestones. Inc
 - setup/doctor/upgrade hygiene
 - Telegram bridge and channel direction where appropriate
 
-Keep `/updates/` noindexed unless each public milestone is tied to shipped behavior in the product README, AITradingOffice README, release history, or source files, and unless any execution-adjacent milestone has nearby safety language covering approval/config gates and no financial advice. If that source audit is not completed during implementation, leave `/updates/` noindexed.
+Keep `/updates/` noindexed unless each public milestone is tied to shipped behavior in the product README, AITradingOffice README, release history, or source files, and unless any execution-adjacent milestone has nearby safety language covering approval/config gates and no financial advice. The page should add useful release context, not merely mirror README bullets. If that source audit is not completed during implementation, or if sibling repo paths are unavailable in the implementation environment, leave `/updates/` noindexed.
 
 ## Visual Direction
 
