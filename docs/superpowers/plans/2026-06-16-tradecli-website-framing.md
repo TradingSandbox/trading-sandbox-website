@@ -17,7 +17,7 @@
 - Modify `shared/nav.html`: update labels only if needed for "Platform" / "Docs" / "About"; preserve current brand asset references.
 - Modify `about/index.html`: replace older market-simulation framing with mission-draft OS framing.
 - Modify `updates/index.html`: replace draft-only content with real product milestones.
-- Modify `build/build-pages.ts`: lift `/updates/` noindex only if the updates page is substantive after the content pass.
+- Modify `build/build-pages.ts`: keep `/updates/` noindexed unless every public milestone has a source-backed claim audit and adjacent safety language.
 - Modify `wiki/index.md`: reframe docs around the OS model.
 - Modify `wiki/guides/personas.md`: reframe personas as agents/modes and include Office Mode.
 - Optionally create `wiki/guides/office-mode.md`: concise Office Mode doc if the personas page becomes too dense.
@@ -64,7 +64,24 @@ Still in `build/__tests__/build-smoke.test.ts`, add this test after the homepage
   });
 ```
 
-- [ ] **Step 3: Run tests and confirm the new assertions fail**
+- [ ] **Step 3: Add nav anchor integrity smoke assertion**
+
+Still in `build/__tests__/build-smoke.test.ts`, add this test after the secondary surfaces test:
+
+```ts
+  test('homepage contains every shared-nav hash target', () => {
+    const html = readFileSync(join(REPO_ROOT, 'dist/index.html'), 'utf-8');
+    const ids = new Set([...html.matchAll(/\sid="([^"]+)"/g)].map((match) => match[1]));
+    const hashTargets = new Set([...html.matchAll(/href="\/#([^"]+)"/g)].map((match) => match[1]));
+
+    expect(hashTargets.size).toBeGreaterThan(0);
+    for (const target of hashTargets) {
+      expect(ids.has(target), `missing homepage id for #${target}`).toBe(true);
+    }
+  });
+```
+
+- [ ] **Step 4: Run tests and confirm the new assertions fail**
 
 Run:
 
@@ -72,9 +89,9 @@ Run:
 npm test -- build/__tests__/build-smoke.test.ts
 ```
 
-Expected: FAIL because the current built content still says "AI trading assistant" and `/updates/` still contains draft-only content.
+Expected: FAIL because the current built content still says "AI trading assistant", `/updates/` still contains draft-only content, and nav targets may not yet match the new IA.
 
-- [ ] **Step 4: Commit the failing test checkpoint**
+- [ ] **Step 5: Commit the failing test checkpoint**
 
 ```bash
 git add build/__tests__/build-smoke.test.ts
@@ -172,7 +189,7 @@ Use editable HTML/CSS boxes, not a static image.
 
 - [ ] **Step 5: Convert the personas section into workflows**
 
-Rename the visible section label from `Personas` to `Workflows`. Keep the existing demo machinery if it still works, but adjust the top-level copy to:
+Rename the visible section label from `Personas` to `Workflows`, and change the containing section id from `personas` to `workflows`. Keep the existing demo machinery only if it still works without viewport instability, but adjust the top-level copy to:
 
 ```html
 <div class="section-label">Workflows</div>
@@ -449,7 +466,23 @@ Keep wording factual and tied to README-backed behavior.
 
 - [ ] **Step 2: Decide whether to index updates**
 
-If the rewritten page has at least the four real milestones above and no bracketed draft text, change the manifest entry in `build/build-pages.ts` from:
+Before changing indexability, run this source audit:
+
+```bash
+rg -n "Office Mode|tradecli office --tmux|tradecli office --herdr|AITradingOffice|broker gateway|tradecli office service|tradecli doctor|tradecli setup" /Users/adityalahiri/self/startup/TradingSandbox/README.md /Users/adityalahiri/self/startup/AITradingOffice/README.md
+git -C /Users/adityalahiri/self/startup/TradingSandbox log --oneline -12
+git -C /Users/adityalahiri/self/startup/AITradingOffice log --oneline -8
+```
+
+Expected: each public milestone on the updates page is backed by README text or release history. If any milestone cannot be tied to shipped behavior, keep `/updates/` noindexed and rewrite or remove that milestone.
+
+Also require safety copy on the page near execution-adjacent milestones:
+
+```html
+<p class="release-note-safety">Execution and portfolio updates remain gated by configuration, explicit approval, broker/tool confirmation, and the site-wide financial-advice disclaimer.</p>
+```
+
+Only if the rewritten page has source-backed milestones, safety language, and no bracketed draft text, change the manifest entry in `build/build-pages.ts` from:
 
 ```ts
 { source: 'updates/index.html', output: 'updates/index.html', changefreq: 'weekly', priority: 0.8, indexable: false, robots: 'noindex, follow' },
@@ -506,7 +539,7 @@ git add updates/index.html build/build-pages.ts build/__tests__/build-smoke.test
 git commit -m "docs: publish real product updates"
 ```
 
-If `build/build-pages.ts` and tests were not changed because the page remains noindexed, omit them from `git add`.
+If the source audit is incomplete, or `build/build-pages.ts` and tests were not changed because the page remains noindexed, omit them from `git add`.
 
 ## Task 6: Navigation And Responsive Polish
 
@@ -567,13 +600,13 @@ Do not remove the existing install/setup/doctor CTA.
 
 - [ ] **Step 2: Add stable animation markup**
 
-Add this editable product animation block near the architecture/workflow proof:
+Add this editable product animation block near the architecture/workflow proof. Do not include a replay button in the first implementation:
 
 ```html
 <div class="herdr-demo" aria-label="Office Mode spawning agents in Herdr">
   <div class="herdr-demo-header">
     <span>tradecli office --herdr</span>
-    <button class="herdr-demo-replay" type="button" aria-label="Replay Office Mode animation">Replay</button>
+    <span>local panes · shared mailbox · AITradingOffice memory</span>
   </div>
   <div class="herdr-demo-stage">
     <div class="herdr-pane herdr-pane-ceo">
@@ -632,15 +665,6 @@ Append CSS that uses fixed slots and does not resize during animation:
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.78rem;
   color: var(--text-secondary);
-}
-.herdr-demo-replay {
-  border: 1px solid var(--border);
-  background: var(--bg-card);
-  color: var(--text-secondary);
-  border-radius: 6px;
-  padding: 6px 10px;
-  font: inherit;
-  cursor: pointer;
 }
 .herdr-demo-stage {
   position: relative;
@@ -752,23 +776,20 @@ Append CSS that uses fixed slots and does not resize during animation:
 
 Tune after Browser screenshots. The CSS above is the starting point, not a substitute for visual QA.
 
-- [ ] **Step 4: Add replay behavior only if the button is kept**
+- [ ] **Step 4: Verify reduced-motion fallback**
 
-If the replay button remains visible, add a tiny script near the homepage scripts:
+Confirm the CSS keeps the final state readable when motion is disabled:
 
-```js
-document.querySelectorAll('.herdr-demo-replay').forEach((button) => {
-  button.addEventListener('click', () => {
-    const demo = button.closest('.herdr-demo');
-    if (!demo) return;
-    demo.classList.remove('replay');
-    void demo.offsetWidth;
-    demo.classList.add('replay');
-  });
-});
+```css
+@media (prefers-reduced-motion: reduce) {
+  .herdr-pane,
+  .mail-chip {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
 ```
-
-If this class is used, scope animation selectors with `.herdr-demo.replay` or keep the button out of the first implementation.
 
 - [ ] **Step 5: Run build**
 

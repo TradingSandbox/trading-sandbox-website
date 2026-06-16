@@ -103,7 +103,7 @@ Design constraints:
 - Keep motion calm and short, roughly 12-18 seconds for one loop.
 - Respect `prefers-reduced-motion` by rendering the final static state.
 - Do not animate large blocks of text; animate panes, task chips, status dots, and short labels.
-- Include a pause/replay affordance if the animation is interactive.
+- Do not include a replay button in the first implementation. The animation should loop calmly by default and render the final state for reduced-motion users. A replay affordance can be added later only if its restart behavior is implemented and verified.
 - Verify desktop and mobile screenshots in Browser; no clipped pane labels or text overlap.
 - Treat the animation as explanatory product proof, not decorative spectacle.
 
@@ -117,6 +117,8 @@ Show the product through workflows, not feature cards:
 - **Hedge fund desk:** spawn CEO, Investor, Trader, and workers across panes.
 
 Each workflow should identify the agent, the tools it uses, what gets remembered, and where guardrails apply.
+
+The homepage workflow section id must be `workflows` if navigation links point to `#workflows`. Do not update shared navigation to a new hash unless the rendered homepage contains that anchor.
 
 ### 5. Safety Ladder
 
@@ -185,7 +187,7 @@ Replace the current draft-only content with real release/product milestones. Inc
 - setup/doctor/upgrade hygiene
 - Telegram bridge and channel direction where appropriate
 
-If the content is real enough, lift the current noindex setting for `/updates/`.
+Keep `/updates/` noindexed unless each public milestone is tied to shipped behavior in the product README, AITradingOffice README, release history, or source files, and unless any execution-adjacent milestone has nearby safety language covering approval/config gates and no financial advice. If that source audit is not completed during implementation, leave `/updates/` noindexed.
 
 ## Visual Direction
 
