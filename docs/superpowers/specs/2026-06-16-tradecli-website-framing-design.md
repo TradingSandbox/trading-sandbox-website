@@ -111,7 +111,7 @@ This section is important for trust, regulatory tone, and product credibility.
 
 ### 6. Install CTA
 
-Keep the install path concrete:
+Preserve the existing install/setup/doctor flow and commands. This part of the site is already correct and should not be redesigned beyond visual integration with the new page hierarchy:
 
 ```bash
 brew install TradingSandbox/tradecli/tradecli
@@ -188,7 +188,7 @@ Avoid overpromising with words like "autonomous trading" unless the guardrail co
 
 ## Implementation Units
 
-1. Homepage copy and section restructuring in `index.html`.
+1. Homepage copy and section restructuring in `index.html`, preserving the current install/setup/doctor commands.
 2. Shared styling updates in `shared/components.css` and `shared/tokens.css` if needed.
 3. Navigation label updates in `shared/nav.html` if the information architecture changes.
 4. About page copy update in `about/index.html`.
