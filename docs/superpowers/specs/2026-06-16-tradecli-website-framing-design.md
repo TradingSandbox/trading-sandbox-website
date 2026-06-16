@@ -83,6 +83,30 @@ Tools and surfaces -> tradecli OS -> Agents -> AITradingOffice memory
 
 This should be visual in the site, using HTML/CSS rather than a static diagram where practical, so it stays responsive and editable.
 
+### 3a. Multi-Agent Herdr Animation
+
+Add one deterministic product animation that demonstrates Office Mode spawning multiple agents in Herdr. This should replace or reduce reliance on the current persona hover demos if those feel unstable.
+
+The animation should show:
+
+1. A CEO pane starts in Herdr.
+2. The CEO dispatches tasks through a mailbox.
+3. Investor, Trader, and PMS/Portfolio panes spawn into stable slots.
+4. Each worker reports a compact status.
+5. AITradingOffice records thesis/trade/review state.
+6. A guardrail checkpoint appears before any action language.
+
+Design constraints:
+
+- Build it with HTML/CSS and light JavaScript, not video, so copy stays editable and responsive.
+- Use a stable fixed-format frame with `aspect-ratio`, `min-height`, and responsive constraints; animation must not resize the layout while running.
+- Keep motion calm and short, roughly 12-18 seconds for one loop.
+- Respect `prefers-reduced-motion` by rendering the final static state.
+- Do not animate large blocks of text; animate panes, task chips, status dots, and short labels.
+- Include a pause/replay affordance if the animation is interactive.
+- Verify desktop and mobile screenshots in Browser; no clipped pane labels or text overlap.
+- Treat the animation as explanatory product proof, not decorative spectacle.
+
 ### 4. Workflow Section
 
 Show the product through workflows, not feature cards:
@@ -171,6 +195,7 @@ Use a serious financial command-center feel:
 - strong typographic hierarchy
 - dense but readable sections
 - terminal/system surfaces as proof, not decoration
+- a calm Herdr/Office Mode spawn animation that uses motion to explain multi-agent coordination
 - fewer generic cards, more structured workflow and architecture blocks
 - mobile layouts that preserve hierarchy without hiding the product model
 
