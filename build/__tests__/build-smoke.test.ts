@@ -156,6 +156,39 @@ describe('smoke: sitemap.xml — prod build', () => {
     }
   });
 
+  test('homepage carries the new OS framing and preserves install commands', () => {
+    const html = readFileSync(join(REPO_ROOT, 'dist/index.html'), 'utf-8');
+    expect(html).toContain('agent-native trading OS');
+    expect(html).toContain('AITradingOffice');
+    expect(html).toContain('brew install TradingSandbox/tradecli/tradecli');
+    expect(html).toContain('tradecli setup');
+    expect(html).toContain('tradecli doctor');
+  });
+
+  test('secondary surfaces explain office memory and guardrails', () => {
+    const about = readFileSync(join(REPO_ROOT, 'dist/about/index.html'), 'utf-8');
+    const updates = readFileSync(join(REPO_ROOT, 'dist/updates/index.html'), 'utf-8');
+    const wiki = readFileSync(join(REPO_ROOT, 'dist/wiki/index.html'), 'utf-8');
+
+    expect(about).toContain('trader-controlled harness');
+    expect(about).toContain('guardrails');
+    expect(updates).toContain('Office Mode');
+    expect(updates).toContain('broker gateway');
+    expect(wiki).toContain('agent-native trading OS');
+    expect(wiki).toContain('Office Mode');
+  });
+
+  test('homepage contains every shared-nav hash target', () => {
+    const html = readFileSync(join(REPO_ROOT, 'dist/index.html'), 'utf-8');
+    const ids = new Set([...html.matchAll(/\sid="([^"]+)"/g)].map((match) => match[1]));
+    const hashTargets = new Set([...html.matchAll(/href="\/#([^"]+)"/g)].map((match) => match[1]));
+
+    expect(hashTargets.size).toBeGreaterThan(0);
+    for (const target of hashTargets) {
+      expect(ids.has(target), `missing homepage id for #${target}`).toBe(true);
+    }
+  });
+
   test('every JSON-LD block parses as valid JSON', () => {
     const pages = ['dist/index.html', 'dist/about/index.html', 'dist/updates/index.html', 'dist/404.html'];
     for (const page of pages) {
