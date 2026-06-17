@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- @@HEAD_BASE@@ -->
+  <title>Privacy — tradecli</title>
+  <meta name="description" content="Privacy notes for tradecli: what the website collects, what stays local, and how to contact us." />
+  <meta property="og:title" content="Privacy — tradecli" />
+  <meta property="og:description" content="What the tradecli website collects and what stays local to your machine." />
+  <meta property="og:image" content="https://tradecli.in/assets/og-default.png" />
+  <meta property="og:url" content="https://tradecli.in/privacy/" />
+  <meta name="twitter:card" content="summary_large_image" />
+</head>
+<body>
+  <!-- @@NAV@@ -->
+
+  <main class="document-page">
+    <section class="hero hero-compact" style="padding: 120px 0 60px;">
+      <div class="container">
+        <div class="section-label">Privacy</div>
+        <h1 class="section-title" style="max-width: 760px;">Local-first means your trading context stays under your control.</h1>
+        <p class="section-desc" style="font-size: 1.15rem; max-width: 760px;">
+          This page describes the website privacy surface for tradecli and the product principles behind the local agent runtime.
+        </p>
+      </div>
+    </section>
+
+    <section style="border-top: 1px solid var(--border);">
+      <div class="container">
+        <div class="section-header fade-in">
+          <div class="section-label">Website</div>
+          <h2 class="section-title">What this site collects.</h2>
+        </div>
+        <div class="about-prose">
+          <p>The public website uses Cloudflare Web Analytics to understand basic traffic patterns such as page views, referrers, browser type, country-level geography, and performance signals. We use this to improve the site, not to profile individual traders.</p>
+          <p>If you email us, we receive the information you choose to send, such as your email address, message, and any context you include. We use that information to reply and manage the relationship you initiated.</p>
+          <p>The site links to third-party services such as GitHub, Homebrew, and documentation hosting surfaces. Their privacy practices are governed by their own policies.</p>
+        </div>
+      </div>
+    </section>
+
+    <section style="border-top: 1px solid var(--border);">
+      <div class="container">
+        <div class="section-header fade-in">
+          <div class="section-label">Product</div>
+          <h2 class="section-title">What stays local.</h2>
+        </div>
+        <div class="about-prose">
+          <p>tradecli is designed as a local-first command layer. Broker sessions, local sidecars, AITradingOffice state, persona configuration, and workflow artifacts are meant to run under the operator's control on their machine unless a user explicitly configures an external service.</p>
+          <p>Broker credentials, portfolio context, watchlists, thesis notes, ledgers, and audit records should not be sent to tradecli by default through the website. When agents use a model provider, broker, browser, or external API that you configure, that provider may receive the data needed for that workflow.</p>
+          <p>Execution-related surfaces are guarded by configuration and approval gates. The privacy model and the safety model share the same principle: make the path visible, explicit, and controlled by the trader.</p>
+        </div>
+      </div>
+    </section>
+
+    <section style="border-top: 1px solid var(--border);">
+      <div class="container">
+        <div class="section-header fade-in">
+          <div class="section-label">Contact</div>
+          <h2 class="section-title">Questions or deletion requests.</h2>
+        </div>
+        <div class="about-prose">
+          <p>For privacy questions, corrections, or deletion requests related to direct correspondence, email <a href="mailto:contact@tradecli.in">contact@tradecli.in</a>.</p>
+          <p>Last updated: June 16, 2026.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- @@FOOTER@@ -->
+  <!-- @@BODY_END@@ -->
+</body>
+</html>

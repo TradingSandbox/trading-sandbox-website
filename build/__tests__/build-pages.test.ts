@@ -91,6 +91,11 @@ describe('buildPageIntoDist (integration)', () => {
     expect(readFileSync(join(tmpRoot, 'dist/404.html'), 'utf-8')).toContain('<h1>Not found</h1>');
   });
 
+  it('fails loudly when a manifest page source is missing', () => {
+    expect(() => buildPageIntoDist(tmpRoot, 'missing/index.html', 'missing/index.html', { SITE_BASE: '/' }))
+      .toThrow('Missing page source in manifest: missing/index.html');
+  });
+
   it('copies shared CSS to dist/assets/', () => {
     copySharedCSSToDistAssets(tmpRoot);
     expect(readFileSync(join(tmpRoot, 'dist/assets/tokens.css'), 'utf-8')).toBe('/* tokens */');
@@ -219,12 +224,13 @@ describe('validateJsonLdBlocks', () => {
 });
 
 describe('PAGES_MANIFEST', () => {
-  it('is exported and contains the four current site pages', () => {
+  it('is exported and contains the current site pages', () => {
     const sources = PAGES_MANIFEST.map((p) => p.source);
     expect(sources).toEqual([
       'index.html',
       'about/index.html',
       'updates/index.html',
+      'privacy/index.html',
       '404.html',
     ]);
   });
@@ -241,21 +247,27 @@ describe('PAGES_MANIFEST', () => {
     }
   });
 
-  it('updates and 404 are non-indexable and have a robots directive', () => {
+  it('404 is non-indexable and has a robots directive', () => {
     const updates = PAGES_MANIFEST.find((p) => p.source === 'updates/index.html');
     const notFound = PAGES_MANIFEST.find((p) => p.source === '404.html');
-    expect(updates?.indexable).toBe(false);
-    expect(updates?.robots).toBe('noindex, follow');
+    expect(updates?.indexable).toBe(true);
+    expect(updates?.robots).toBeUndefined();
     expect(notFound?.indexable).toBe(false);
     expect(notFound?.robots).toBe('noindex');
   });
 
-  it('index and about are indexable and have no robots override', () => {
+  it('index, about, updates, and privacy are indexable and have no robots override', () => {
     const home = PAGES_MANIFEST.find((p) => p.source === 'index.html');
     const about = PAGES_MANIFEST.find((p) => p.source === 'about/index.html');
+    const updates = PAGES_MANIFEST.find((p) => p.source === 'updates/index.html');
+    const privacy = PAGES_MANIFEST.find((p) => p.source === 'privacy/index.html');
     expect(home?.indexable).toBe(true);
     expect(home?.robots).toBeUndefined();
     expect(about?.indexable).toBe(true);
     expect(about?.robots).toBeUndefined();
+    expect(updates?.indexable).toBe(true);
+    expect(updates?.robots).toBeUndefined();
+    expect(privacy?.indexable).toBe(true);
+    expect(privacy?.robots).toBeUndefined();
   });
 });
