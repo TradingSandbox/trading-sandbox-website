@@ -142,7 +142,7 @@ echo "$ANTHROPIC_API_KEY"
 
 If the value is empty, your `~/.zshrc` / `~/.bashrc` export isn't being picked up. Open a fresh terminal or `source` the rc file.
 
-**OAuth login in the browser fails or the page shows an error.**
+**Browser login fails or the page shows an error.**
 
 For Anthropic specifically, the SDK's local callback server doesn't always settle cleanly when the browser returns an error. If `/login` hangs after a browser error, press `Esc` to cancel — the prompt should release. Then start over.
 

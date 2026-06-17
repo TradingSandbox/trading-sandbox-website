@@ -90,8 +90,7 @@ export function buildPageIntoDist(
 ): void {
   const sourcePath = join(repoRoot, sourceRel);
   if (!existsSync(sourcePath)) {
-    console.warn(`skipping missing source: ${sourceRel}`);
-    return;
+    throw new Error(`Missing page source in manifest: ${sourceRel}`);
   }
   const shared = {
     HEAD_BASE: readFileSync(join(repoRoot, 'shared/head-base.html'), 'utf-8'),
@@ -132,8 +131,8 @@ export interface PageManifestEntry {
 export const PAGES_MANIFEST: readonly PageManifestEntry[] = [
   { source: 'index.html',         output: 'index.html',         changefreq: 'weekly',  priority: 1.0, indexable: true  },
   { source: 'about/index.html',   output: 'about/index.html',   changefreq: 'monthly', priority: 0.7, indexable: true  },
+  { source: 'updates/index.html', output: 'updates/index.html', changefreq: 'weekly',  priority: 0.8, indexable: true  },
   { source: 'privacy/index.html', output: 'privacy/index.html', changefreq: 'yearly',  priority: 0.4, indexable: true  },
-  { source: 'updates/index.html', output: 'updates/index.html', changefreq: 'weekly',  priority: 0.8, indexable: false, robots: 'noindex, follow' }, // placeholder content; lift when first real entry ships, see spec §4.5
   { source: '404.html',           output: '404.html',           changefreq: 'never',   priority: 0.0, indexable: false, robots: 'noindex' },
 ];
 

@@ -1,17 +1,27 @@
 ---
 title: tradecli wiki
-description: Documentation for the tradecli AI trading assistant for Indian markets.
+description: Documentation for the tradecli agent-native trading OS for Indian markets.
 ---
 
 # tradecli wiki
 
-Documentation for `tradecli` — a terminal-based AI trading assistant for Indian markets.
+Documentation for `tradecli` — the agent-native trading OS for Indian markets.
 
 ## What is tradecli?
 
-`tradecli` is a command-line AI agent that drives your browser and MCP-native market tools to research stocks, learn trading, manage portfolios, and analyze live trade setups across NSE and BSE. It connects to Groww and Zerodha through MCP, uses Screener.in and TradingView, and adapts to where you are in your trading journey through three personas: Learner, Investor, and Trader.
+`tradecli` is a local command layer for AI agents that operate across the tools Indian-market traders already use: broker APIs, broker/browser screens, TradingView, Screener.in, portfolios, and a durable office memory layer.
 
-Everything the agent does you can see and audit in your terminal — no hidden actions, no cloud service, your broker credentials stay on your machine.
+The product shape is three parts:
+
+- **tradecli OS**: the local harness for tools, personas, broker sidecars, browser control, model runtime, and action policy.
+- **Agents**: workers you spawn with a persona and mandate, from Learner and Investor to Trader, Hedge Fund, and PMS desks.
+- **AITradingOffice**: the system of record for theses, forward tests, ledgers, reviews, employees, clients, and account context.
+
+Everything the agents do should remain visible and auditable from the operator's command surface. Broker credentials stay on your machine, and execution paths are gated behind explicit setup and review.
+
+## Office Mode
+
+Office Mode lets one operator coordinate multiple specialist agents from the interactive TUI. Launch `tradecli`, choose Office Mode, and the mailbox coordinates delegation while AITradingOffice keeps the durable record behind the session.
 
 ## New here?
 
@@ -23,17 +33,16 @@ Start with → [Quick Start](/getting-started/quick-start)
 
 #### [Quick Start](/getting-started/quick-start)
 - Install via Homebrew
-- Configure an LLM provider
+- Run first-time setup
 - Run `tradecli doctor`
-- Pick your first persona
 - Launch the TUI
+- Pick your first workflow
 
 #### [Broker Setup](/getting-started/broker-setup)
-- Supported brokers
-- Groww connection
-- Zerodha Kite connection
-- Token refresh and reauth
-- Troubleshooting
+- Run `tradecli setup`
+- Groww first-use auth behavior
+- Zerodha Kite first-use login behavior
+- Local doctor repair path
 
 #### [Browser Setup](/getting-started/browser-setup)
 - Why a dedicated browser
@@ -42,11 +51,18 @@ Start with → [Quick Start](/getting-started/quick-start)
 - First-run flow
 - Troubleshooting
 
+#### [LLM Setup](/getting-started/llm-setup)
+- API-key providers
+- Subscription login paths
+- Auth storage
+- Verification
+
 ### Guides
 
 #### [Personas & Modes](/guides/personas)
 - Picking one
 - Switching
+- Office Mode
 
 #### [Learner Mode](/guides/learner)
 - How it works
@@ -61,6 +77,12 @@ Start with → [Quick Start](/getting-started/quick-start)
 #### [Trader](/guides/trader)
 - What it's for
 - Primary tools
+- Typical prompts
+
+#### [PMS and Portfolio Workflows](/guides/portfolio-manager)
+- PMS mode in Office Mode
+- Portfolio context
+- Guardrails
 - Typical prompts
 
 #### [Channels & API](/guides/channels-api)
